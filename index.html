@@ -1,9 +1,854 @@
 <!DOCTYPE html>
-<html>
-       <head>
-      
-       </head>
-       <body>
-          <h1>EN MANTENIMENT</h1>
-       </body>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GYM ZERO — Presentació del Projecte</title>
+
+  <style>
+    :root {
+      --bg: #f5f7fb;
+      --card: #ffffff;
+      --primary: #004aad;
+      --primary-dark: #00357d;
+      --soft: #e6f0ff;
+      --text: #1f2937;
+      --muted: #667085;
+      --border: #d8e0ef;
+      --success: #0f9f6e;
+      --radius: 18px;
+      --shadow: 0 14px 35px rgba(15, 23, 42, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 0.8rem 1.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-weight: 800;
+      color: var(--primary);
+      white-space: nowrap;
+    }
+
+    .logo-badge {
+      background: var(--primary);
+      color: white;
+      padding: 0.35rem 0.55rem;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      letter-spacing: 0.03em;
+    }
+
+    .nav-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      justify-content: flex-end;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--muted);
+      font-size: 0.84rem;
+      padding: 0.35rem 0.65rem;
+      border-radius: 999px;
+      transition: 0.15s ease;
+    }
+
+    .nav-links a:hover {
+      background: var(--soft);
+      color: var(--primary);
+    }
+
+    main {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 1.5rem 1.2rem 4rem;
+    }
+
+    section {
+      margin-top: 2rem;
+    }
+
+    .slide {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 1.4rem;
+    }
+
+    .hero {
+      min-height: 72vh;
+      display: grid;
+      grid-template-columns: 1.3fr 0.9fr;
+      gap: 1.6rem;
+      align-items: center;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: var(--soft);
+      color: var(--primary);
+      padding: 0.35rem 0.75rem;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 0.85rem;
+    }
+
+    h1 {
+      font-size: clamp(2.1rem, 5vw, 4rem);
+      line-height: 1.05;
+      margin: 1rem 0 0.8rem;
+      color: var(--primary);
+      letter-spacing: -0.04em;
+    }
+
+    h2 {
+      color: var(--primary);
+      font-size: clamp(1.55rem, 3vw, 2.35rem);
+      margin: 0 0 1rem;
+      letter-spacing: -0.03em;
+    }
+
+    h3 {
+      color: var(--primary-dark);
+      margin-top: 0;
+      margin-bottom: 0.55rem;
+    }
+
+    p {
+      color: var(--muted);
+      line-height: 1.65;
+      font-size: 1rem;
+    }
+
+    .lead {
+      font-size: 1.15rem;
+      max-width: 780px;
+    }
+
+    .hero-card {
+      background: linear-gradient(160deg, var(--primary), #0e72df);
+      color: white;
+      border-radius: var(--radius);
+      padding: 1.35rem;
+      box-shadow: var(--shadow);
+    }
+
+    .hero-card p,
+    .hero-card li {
+      color: rgba(255, 255, 255, 0.88);
+    }
+
+    .hero-card h3 {
+      color: white;
+    }
+
+    .btn-row {
+      display: flex;
+      gap: 0.7rem;
+      flex-wrap: wrap;
+      margin-top: 1.2rem;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.65rem 1rem;
+      border-radius: 999px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.92rem;
+      border: 1px solid transparent;
+      transition: 0.15s ease;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+      box-shadow: 0 8px 18px rgba(0, 74, 173, 0.28);
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-dark);
+    }
+
+    .btn-outline {
+      background: white;
+      color: var(--primary);
+      border-color: var(--border);
+    }
+
+    .btn-outline:hover {
+      background: var(--soft);
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1rem;
+    }
+
+    .mini-card {
+      background: #f9fbff;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1rem;
+    }
+
+    .mini-card p {
+      margin-bottom: 0;
+      font-size: 0.95rem;
+    }
+
+    ul {
+      padding-left: 1.1rem;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    li {
+      margin-bottom: 0.35rem;
+    }
+
+    .tag-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 0.8rem;
+    }
+
+    .tag {
+      background: var(--soft);
+      color: var(--primary);
+      padding: 0.35rem 0.65rem;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      font-weight: 700;
+    }
+
+    .diagram {
+      background: #0f172a;
+      color: white;
+      border-radius: 16px;
+      padding: 1rem;
+      overflow-x: auto;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      line-height: 1.55;
+      font-size: 0.86rem;
+      white-space: pre;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 0.8rem;
+      font-size: 0.93rem;
+    }
+
+    th, td {
+      border: 1px solid var(--border);
+      padding: 0.65rem;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background: var(--soft);
+      color: var(--primary);
+    }
+
+    .timeline {
+      border-left: 4px solid var(--soft);
+      padding-left: 1rem;
+      margin-top: 0.8rem;
+    }
+
+    .timeline-item {
+      position: relative;
+      margin-bottom: 1.2rem;
+    }
+
+    .timeline-item::before {
+      content: "";
+      position: absolute;
+      left: -1.42rem;
+      top: 0.3rem;
+      width: 13px;
+      height: 13px;
+      background: var(--primary);
+      border-radius: 50%;
+      border: 3px solid white;
+      box-shadow: 0 0 0 2px var(--primary);
+    }
+
+    .timeline-title {
+      font-weight: 800;
+      color: var(--primary-dark);
+    }
+
+    .status {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.3rem 0.55rem;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 800;
+    }
+
+    .done {
+      background: #e6f9f1;
+      color: var(--success);
+    }
+
+    .pending {
+      background: #fff6df;
+      color: #9a6700;
+    }
+
+    .risk {
+      background: #ffecec;
+      color: #b42318;
+    }
+
+    .footer {
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.85rem;
+      margin-top: 2.5rem;
+    }
+
+    .slide-number {
+      font-size: 0.8rem;
+      color: var(--muted);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 0.45rem;
+    }
+
+    @media (max-width: 850px) {
+      .hero,
+      .grid-2,
+      .grid-3 {
+        grid-template-columns: 1fr;
+      }
+
+      .nav {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .nav-links {
+        justify-content: flex-start;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="nav">
+      <div class="logo">
+        <span class="logo-badge">GYM</span>
+        <span>GYM ZERO · Presentació</span>
+      </div>
+
+      <nav class="nav-links">
+        <a href="#context">Context</a>
+        <a href="#abast">Abast</a>
+        <a href="#solucions">Solucions</a>
+        <a href="#integracio">Integració</a>
+        <a href="#planificacio">Planificació</a>
+        <a href="#demo">Demo</a>
+        <a href="#resultats">Resultats</a>
+        <a href="#conclusions">Conclusions</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- PORTADA -->
+    <section id="portada" class="hero">
+      <div class="slide">
+        <span class="badge">Projecte Intermodular SMX2 · 2025/2026</span>
+        <h1>GYM ZERO</h1>
+        <p class="lead">
+          Transformació digital d’un gimnàs tradicional cap a un model de
+          <strong>Gimnàs 4.0</strong>, integrant web pública, eines interactives,
+          planificació tècnica, infraestructura proposada, base de dades i un mòdul LAB simulat.
+        </p>
+
+        <div class="btn-row">
+          <a class="btn btn-primary" href="#context">Començar presentació</a>
+          <a class="btn btn-outline" href="https://github.com/janpalahi-commits/GYM-ZERO" target="_blank">
+            Repositori GitHub
+          </a>
+        </div>
+
+        <p style="margin-top:1rem;">
+          <strong>Autor:</strong> Jan Palahí ·
+          <strong>Cicle:</strong> SMX2 ·
+          <strong>Centre:</strong> [Nom del centre]
+        </p>
+      </div>
+
+      <aside class="hero-card">
+        <h3>Objectiu principal</h3>
+        <p>
+          Dissenyar i demostrar una solució informàtica realista per modernitzar
+          la gestió d’un gimnàs que inicialment no disposa de tecnologia.
+        </p>
+        <ul>
+          <li>Web pública</li>
+          <li>Calculadores interactives</li>
+          <li>Funcionalitat PHP</li>
+          <li>Base de dades</li>
+          <li>Infraestructura proposada</li>
+          <li>LAB científic simulat</li>
+        </ul>
+      </aside>
+    </section>
+
+    <!-- CONTEXT -->
+    <section id="context" class="slide">
+      <div class="slide-number">01 · Context i situació inicial</div>
+      <h2>Un gimnàs 0.0 sense digitalització</h2>
+
+      <p>
+        El projecte parteix d’un gimnàs tradicional que treballa de manera pràcticament
+        analògica. Els registres de socis, les reserves, els cobraments i la comunicació
+        amb els clients es fan manualment o amb eines poc centralitzades.
+      </p>
+
+      <div class="grid-2">
+        <div class="mini-card">
+          <h3>Problemes detectats</h3>
+          <ul>
+            <li>Errors en registres i reserves.</li>
+            <li>Pèrdua o duplicació d’informació.</li>
+            <li>No hi ha una base de dades centralitzada.</li>
+            <li>No existeix una infraestructura de xarxa definida.</li>
+            <li>No hi ha canals digitals potents per als clients.</li>
+          </ul>
+        </div>
+
+        <div class="mini-card">
+          <h3>Valor que aporta el sistema</h3>
+          <ul>
+            <li>Millora de l’organització interna.</li>
+            <li>Centralització de dades.</li>
+            <li>Web pública accessible.</li>
+            <li>Eines interactives per als usuaris.</li>
+            <li>Base per a futures millores 4.0.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABAST -->
+    <section id="abast" class="slide">
+      <div class="slide-number">02 · Abast i objectius</div>
+      <h2>Què inclou i què no inclou el projecte</h2>
+
+      <div class="grid-2">
+        <div class="mini-card">
+          <h3>Dins de l’abast</h3>
+          <ul>
+            <li>Disseny de la infraestructura tècnica del gimnàs.</li>
+            <li>Web pública del projecte.</li>
+            <li>Calculadores d’entrenament amb JavaScript.</li>
+            <li>Funcionalitat web amb PHP.</li>
+            <li>Disseny de base de dades.</li>
+            <li>Proposta de panell intern.</li>
+            <li>LAB científic simulat.</li>
+            <li>Planificació amb GitHub Issues, milestones i Gantt.</li>
+          </ul>
+        </div>
+
+        <div class="mini-card">
+          <h3>Fora de l’abast inicial</h3>
+          <ul>
+            <li>Compra i instal·lació física real del maquinari.</li>
+            <li>Passarel·les de pagament reals.</li>
+            <li>Aplicació mòbil nativa.</li>
+            <li>Sensors biomètrics reals.</li>
+            <li>Integració real amb màquines comercials.</li>
+            <li>IA avançada o IoT real en la primera versió.</li>
+          </ul>
+        </div>
+      </div>
+
+      <p>
+        L’objectiu general és dissenyar una solució informàtica coherent, escalable i
+        justificable tècnicament per convertir un gimnàs tradicional en un entorn més digitalitzat.
+      </p>
+    </section>
+
+    <!-- SOLUCIONS -->
+    <section id="solucions" class="slide">
+      <div class="slide-number">03 · Solucions tècniques</div>
+      <h2>Tecnologies i eines utilitzades</h2>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Àrea</th>
+            <th>Tecnologia</th>
+            <th>Justificació</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Web pública</td>
+            <td>HTML, CSS, JavaScript</td>
+            <td>Permeten crear una web visual, responsive i amb interacció bàsica.</td>
+          </tr>
+          <tr>
+            <td>Calculadores</td>
+            <td>JavaScript</td>
+            <td>Els càlculs s’executen directament al navegador.</td>
+          </tr>
+          <tr>
+            <td>Funcionalitat obligatòria</td>
+            <td>PHP</td>
+            <td>Permet processar formularis i connectar amb base de dades.</td>
+          </tr>
+          <tr>
+            <td>Base de dades</td>
+            <td>MySQL / MariaDB</td>
+            <td>Adequada per gestionar socis, reserves, activitats i dades LAB.</td>
+          </tr>
+          <tr>
+            <td>Infraestructura</td>
+            <td>Ubuntu Server / LAMP / XAMPP</td>
+            <td>Entorn realista per provar serveis web i base de dades.</td>
+          </tr>
+          <tr>
+            <td>Gestió del projecte</td>
+            <td>GitHub + GanttLab</td>
+            <td>Permet gestionar issues, milestones, dependències i planificació.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p>
+        Una decisió important és separar la part estàtica de la web, que pot estar publicada
+        a GitHub Pages o hosting, de la part PHP, que necessita un entorn compatible com XAMPP,
+        LAMP o un hosting amb PHP.
+      </p>
+    </section>
+
+    <!-- INTEGRACIO -->
+    <section id="integracio" class="slide">
+      <div class="slide-number">04 · Integració i interacció</div>
+      <h2>Com es connecten les parts del sistema</h2>
+
+      <p>
+        El sistema està pensat per funcionar per capes. La web pública mostra informació i eines
+        per als clients. El panell intern estaria orientat al personal del gimnàs. La funcionalitat
+        PHP permetria enviar dades cap a la base de dades. La infraestructura de xarxa i servidor
+        dona suport a aquests serveis.
+      </p>
+
+      <div class="diagram">Client / Soci
+   │
+   ▼
+Web pública ── Calculadores JS
+   │
+   ▼
+Formulari PHP
+   │
+   ▼
+Base de dades MySQL/MariaDB
+   │
+   ├── Reserves
+   ├── Socis
+   ├── Activitats
+   └── Dades LAB
+
+Personal / Entrenador
+   │
+   ▼
+Panell intern
+   │
+   ▼
+Gestió i consulta de dades</div>
+
+      <div class="tag-list">
+        <span class="tag">Web</span>
+        <span class="tag">PHP</span>
+        <span class="tag">Base de dades</span>
+        <span class="tag">Servidor</span>
+        <span class="tag">Xarxa</span>
+        <span class="tag">LAB</span>
+      </div>
+    </section>
+
+    <!-- PLANIFICACIO -->
+    <section id="planificacio" class="slide">
+      <div class="slide-number">05 · Planificació del projecte</div>
+      <h2>Fases, milestones i tasques</h2>
+
+      <p>
+        El projecte s’organitza amb GitHub Issues i Milestones. Cada tasca té un objectiu,
+        una dependència i una data prevista. GanttLab permet visualitzar el calendari i detectar
+        quines tasques bloquegen altres parts del projecte.
+      </p>
+
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="timeline-title">Fase 1 — Definició i disseny</div>
+          <p>Context, abast, actors, casos d’ús, objectius i arquitectura general.</p>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-title">Fase 2 — Disseny tècnic</div>
+          <p>Infraestructura, xarxa, serveis, base de dades, seguretat i tecnologies.</p>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-title">Fase 3 — Desenvolupament</div>
+          <p>Web pública, calculadores, funcionalitat PHP, base de dades i panell intern.</p>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-title">Fase 4 — Validació i tancament</div>
+          <p>Proves, capturas, resultats, conclusions, memòria i presentació final.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- DEMO -->
+    <section id="demo" class="slide">
+      <div class="slide-number">06 · Exemple de web i programa</div>
+      <h2>Demostració funcional</h2>
+
+      <div class="grid-3">
+        <div class="mini-card">
+          <h3>Web pública</h3>
+          <p>
+            La web mostra el projecte, el context, la infraestructura proposada, les fases
+            i la informació principal del GYM ZERO.
+          </p>
+          <span class="status done">Disponible</span>
+        </div>
+
+        <div class="mini-card">
+          <h3>Calculadores</h3>
+          <p>
+            Les calculadores 1RM, IMC i TDEE estan implementades amb JavaScript i permeten
+            una primera interacció amb l’usuari.
+          </p>
+          <span class="status done">Funcional</span>
+        </div>
+
+        <div class="mini-card">
+          <h3>Funcionalitat PHP</h3>
+          <p>
+            Es preveu implementar un formulari de reserva de classe o alta de soci connectat
+            amb una base de dades MySQL/MariaDB.
+          </p>
+          <span class="status pending">En desenvolupament</span>
+        </div>
+      </div>
+
+      <p>
+        La funcionalitat PHP serà una part clau de la demostració, ja que permetrà veure com
+        les dades introduïdes en un formulari es processen i s’emmagatzemen a la base de dades.
+      </p>
+    </section>
+
+    <!-- RESULTATS -->
+    <section id="resultats" class="slide">
+      <div class="slide-number">07 · Resultats i validació</div>
+      <h2>Què s’ha aconseguit i com es valida</h2>
+
+      <div class="grid-2">
+        <div class="mini-card">
+          <h3>Resultats actuals</h3>
+          <ul>
+            <li>Repositori GitHub creat.</li>
+            <li>Web inicial publicada.</li>
+            <li>Context i abast redactats.</li>
+            <li>Fases inicials definides.</li>
+            <li>Calculadores web preparades.</li>
+            <li>Base de la memòria tècnica iniciada.</li>
+          </ul>
+        </div>
+
+        <div class="mini-card">
+          <h3>Validació prevista</h3>
+          <ul>
+            <li>Captura de la web publicada.</li>
+            <li>Prova de les calculadores.</li>
+            <li>Prova del formulari PHP.</li>
+            <li>Comprovació de dades a la base de dades.</li>
+            <li>Captura del Gantt i GitHub Issues.</li>
+            <li>Revisió final amb la memòria tècnica.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ENGLISH 1 -->
+    <section id="english-architecture" class="slide">
+      <div class="slide-number">08 · English slide</div>
+      <h2>System Architecture</h2>
+
+      <p>
+        GYM ZERO is designed as a layered system. The public website provides information
+        and interactive tools for users. The internal panel is planned to manage gym data
+        such as members, bookings and LAB records. PHP connects web forms with the database,
+        while the server infrastructure supports internal services, backups and security.
+      </p>
+
+      <div class="grid-2">
+        <div class="mini-card">
+          <h3>Main components</h3>
+          <ul>
+            <li>Public website</li>
+            <li>Internal management panel</li>
+            <li>PHP functionality</li>
+            <li>MySQL/MariaDB database</li>
+            <li>Server infrastructure</li>
+            <li>Network segmentation</li>
+          </ul>
+        </div>
+
+        <div class="mini-card">
+          <h3>Technical value</h3>
+          <p>
+            The project connects web development, databases, network design, services and
+            cybersecurity into a single realistic digital transformation proposal.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ENGLISH 2 -->
+    <section id="english-results" class="slide">
+      <div class="slide-number">09 · English slide</div>
+      <h2>Results and Future Improvements</h2>
+
+      <p>
+        The project provides a realistic proposal to transform a traditional gym into a Gym 4.0.
+        The first version includes a public website, interactive calculators, technical planning,
+        database design and a planned PHP functionality.
+      </p>
+
+      <div class="grid-2">
+        <div class="mini-card">
+          <h3>Current results</h3>
+          <ul>
+            <li>Initial website published</li>
+            <li>Project documentation started</li>
+            <li>Interactive calculators designed</li>
+            <li>Technical architecture defined</li>
+          </ul>
+        </div>
+
+        <div class="mini-card">
+          <h3>Future improvements</h3>
+          <ul>
+            <li>Mobile application</li>
+            <li>Real IoT sensors</li>
+            <li>RFID access control</li>
+            <li>Online payments</li>
+            <li>Advanced LAB reports</li>
+            <li>AI-based training recommendations</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONCLUSIONS -->
+    <section id="conclusions" class="slide">
+      <div class="slide-number">10 · Conclusions i aprenentatges</div>
+      <h2>Aprenentatges del projecte</h2>
+
+      <p>
+        Aquest projecte permet entendre que una transformació digital no consisteix només
+        a crear una pàgina web, sinó a dissenyar un sistema complet amb infraestructura,
+        serveis, dades, seguretat i planificació.
+      </p>
+
+      <div class="grid-2">
+        <div class="mini-card">
+          <h3>Aprenentatges tècnics</h3>
+          <ul>
+            <li>Disseny de sistemes per capes.</li>
+            <li>Planificació amb GitHub Issues i milestones.</li>
+            <li>Diferència entre web estàtica i PHP.</li>
+            <li>Ús de JavaScript per funcionalitats interactives.</li>
+            <li>Importància de la base de dades i la seguretat.</li>
+          </ul>
+        </div>
+
+        <div class="mini-card">
+          <h3>Dificultats i millores</h3>
+          <ul>
+            <li>Acotar correctament una idea molt gran.</li>
+            <li>Diferenciar entre simulació i implementació real.</li>
+            <li>Organitzar la documentació tècnica.</li>
+            <li>Completar el mòdul PHP i la base de dades.</li>
+            <li>Afegir evidències i proves finals.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="btn-row">
+        <a class="btn btn-primary" href="#portada">Tornar a l’inici</a>
+        <a class="btn btn-outline" href="https://github.com/janpalahi-commits/GYM-ZERO" target="_blank">
+          Veure repositori
+        </a>
+      </div>
+    </section>
+
+    <p class="footer">
+      © 2025/2026 Jan Palahí · Projecte Intermodular SMX2 · GYM ZERO
+    </p>
+  </main>
+</body>
 </html>
