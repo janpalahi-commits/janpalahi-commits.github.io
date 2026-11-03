@@ -1,857 +1,649 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ca">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>GYM ZERO — Presentació del Projecte</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GYM-ZERO · Presentació</title>
+<meta name="description" content="Presentació del Projecte Intermodular GYM-ZERO (SMX2, INS Palamós, curs 2026-27). Jan Palahí.">
+<link rel="icon" href="img/icona.svg" type="image/svg+xml">
+<style>
+@font-face{font-family:"Saira Condensed";src:url(fonts/saira-condensed-700.woff2) format("woff2");font-weight:700;font-display:swap}
+@font-face{font-family:"Saira Condensed";src:url(fonts/saira-condensed-800.woff2) format("woff2");font-weight:800;font-display:swap}
+@font-face{font-family:"Source Sans 3";src:url(fonts/source-sans-3.woff2) format("woff2");font-weight:200 900;font-display:swap}
+@font-face{font-family:"IBM Plex Mono";src:url(fonts/plex-mono-500.woff2) format("woff2");font-weight:500;font-display:swap}
+@font-face{font-family:"IBM Plex Mono";src:url(fonts/plex-mono-600.woff2) format("woff2");font-weight:600;font-display:swap}
 
-  <style>
-    :root {
-      --bg: #f5f7fb;
-      --card: #ffffff;
-      --primary: #004aad;
-      --primary-dark: #00357d;
-      --soft: #e6f0ff;
-      --text: #1f2937;
-      --muted: #667085;
-      --border: #d8e0ef;
-      --success: #0f9f6e;
-      --radius: 18px;
-      --shadow: 0 14px 35px rgba(15, 23, 42, 0.08);
-    }
+:root{
+  --fons:#fff; --tinta:#101312; --mut:#5f6763; --linia:#dde2de; --gris:#f0f3f1;
+  --pista:#0f5a45; --vermell:#e23d2c; --cel:#9cd0ec; --sorra:#f2c14e; --lila:#b9a7f0;
+  --titol:"Saira Condensed","Arial Narrow",sans-serif;
+  --text:"Source Sans 3","Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,monospace;
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{background:#d9dedb;color:var(--tinta);font-family:var(--text);overflow:hidden}
 
-    * {
-      box-sizing: border-box;
-      scroll-behavior: smooth;
-    }
+/* Cada diapositiva fa 1600 × 900 i s'escala per cabre a la pantalla */
+.slide{
+  position:absolute;left:50%;top:50%;width:1600px;height:900px;
+  transform:translate(-50%,-50%) scale(var(--s,1));
+  background:var(--fons);display:none;flex-direction:column;
+  padding:0 96px 0;overflow:hidden;
+}
+.slide.actiu{display:flex}
+.cap{display:flex;justify-content:space-between;align-items:center;height:92px;border-bottom:4px solid var(--tinta);flex:none}
+.logo{font-family:var(--titol);font-weight:800;font-size:34px;letter-spacing:.5px}
+.logo b{color:var(--vermell);font-weight:800}
+.seccio{font-family:var(--mono);font-size:17px;color:var(--mut);letter-spacing:.5px;text-transform:uppercase}
+.seccio .en{color:var(--tinta);background:var(--sorra);padding:3px 10px;border-radius:4px;margin-left:10px}
+.cos{flex:1;padding-top:44px;min-height:0;display:flex;flex-direction:column}
+.peu{height:64px;display:flex;justify-content:space-between;align-items:center;font-family:var(--mono);font-size:16px;color:var(--mut);flex:none}
 
-    body {
-      margin: 0;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: var(--bg);
-      color: var(--text);
-    }
+h1,h2,h3{font-family:var(--titol);text-transform:uppercase;margin:0;line-height:.92}
+h2{font-size:84px;font-weight:800;margin-bottom:30px}
+h2 .verd{color:var(--pista)} h2 .verm{color:var(--vermell)}
+h3{font-size:30px;font-weight:700;margin-bottom:12px}
+p{margin:0}
+.gran{font-size:30px;line-height:1.35}
+.mitja{font-size:24px;line-height:1.4}
+.mut{color:var(--mut)}
+.mono{font-family:var(--mono)}
+code,.codi{font-family:var(--mono);font-size:.86em}
 
-    header {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      background: rgba(255, 255, 255, 0.92);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--border);
-    }
+/* Estats: el que funciona, el que és simulat i el que només està dissenyat */
+.estat{display:inline-block;font-family:var(--text);font-weight:600;font-size:18px;padding:3px 12px;border-radius:999px;white-space:nowrap;vertical-align:middle}
+.estat.fet{background:#dcece4;color:var(--pista)}
+.estat.sim{background:#fbeec9;color:#7a5600}
+.estat.dis{background:#dceefa;color:#1d5d85}
 
-    .nav {
-      max-width: 1180px;
-      margin: 0 auto;
-      padding: 0.8rem 1.2rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 1rem;
-    }
+.fila{display:flex;gap:40px}
+.col{flex:1;min-width:0}
+.targeta{background:var(--gris);border-radius:14px;padding:26px 28px}
+.targeta h3{font-size:32px}
+.targeta p{font-size:23px;line-height:1.4}
+.problemes .targeta{padding:30px 30px 34px}
+.problemes .targeta h3{font-size:40px;margin-bottom:16px}
+.problemes .targeta p{font-size:27px}
+.ratlla{border-left:6px solid var(--tinta);padding-left:22px}
 
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 0.6rem;
-      font-weight: 800;
-      color: var(--primary);
-      white-space: nowrap;
-    }
+ol.passos,ul.llista{margin:0;padding:0;list-style:none}
+ol.passos{counter-reset:p}
+ol.passos li{counter-increment:p;position:relative;padding-left:44px;font-size:23px;line-height:1.35;margin-bottom:8px}
+ol.passos li::before{content:counter(p);position:absolute;left:0;top:2px;width:30px;height:30px;border-radius:50%;background:var(--tinta);color:#fff;font-family:var(--mono);font-size:16px;display:grid;place-items:center}
+ul.llista li{position:relative;padding-left:26px;font-size:23px;line-height:1.38;margin-bottom:9px}
+ul.llista li::before{content:"";position:absolute;left:0;top:13px;width:12px;height:4px;background:var(--vermell)}
+.etiq{font-family:var(--mono);font-size:16px;text-transform:uppercase;letter-spacing:.6px;color:var(--mut);margin-bottom:8px}
 
-    .logo-badge {
-      background: var(--primary);
-      color: white;
-      padding: 0.35rem 0.55rem;
-      border-radius: 999px;
-      font-size: 0.75rem;
-      letter-spacing: 0.03em;
-    }
+.captura{border:3px solid var(--tinta);border-radius:12px;overflow:hidden;background:#fff;display:block}
+.captura img{display:block;width:100%}
+figure{margin:0}
+figcaption{font-size:19px;color:var(--mut);margin-top:10px;line-height:1.35}
 
-    .nav-links {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.4rem;
-      justify-content: flex-end;
-    }
+.mosaic{display:grid;grid-template-columns:1fr 470px;grid-template-rows:1fr 1fr;gap:22px;height:572px}
+.mosaic .captura{position:relative}
+.mosaic .captura img{width:100%;height:100%;object-fit:cover;object-position:top left}
+.mosaic .gran-cap{grid-row:1 / 3}
+.rotul{position:absolute;left:12px;bottom:12px;background:var(--tinta);color:#fff;font-family:var(--titol);font-weight:700;text-transform:uppercase;font-size:22px;padding:5px 14px;border-radius:8px}
+.llista.gran li{font-size:27px;margin-bottom:14px}
+.llista.gran li::before{top:16px}
+/* Taula dels casos d'ús */
+table{border-collapse:collapse;width:100%}
+th{font-family:var(--titol);text-transform:uppercase;font-size:22px;text-align:left;color:var(--mut);padding:0 14px 10px;border-bottom:3px solid var(--tinta)}
+td{font-size:23px;padding:11px 14px;border-bottom:1px solid var(--linia);vertical-align:middle}
+td.actor{font-family:var(--titol);font-weight:700;font-size:25px;text-transform:uppercase}
 
-    .nav-links a {
-      text-decoration: none;
-      color: var(--muted);
-      font-size: 0.84rem;
-      padding: 0.35rem 0.65rem;
-      border-radius: 999px;
-      transition: 0.15s ease;
-    }
+/* Capes */
+.capes{display:flex;flex-direction:column;gap:12px}
+.capa{display:grid;grid-template-columns:230px 1fr;align-items:center;border-radius:12px;overflow:hidden;background:var(--gris);min-height:84px}
+.capa .nom{font-family:var(--titol);font-weight:800;text-transform:uppercase;font-size:28px;color:#fff;display:flex;align-items:center;align-self:stretch;padding:0 22px;background:var(--tinta)}
+.capa .que{padding:12px 24px;font-size:22px;line-height:1.36}
+.capa.c1 .nom{background:var(--vermell)}
+.capa.c2 .nom{background:var(--pista)}
+.capa.c3 .nom{background:#2f6e93}
+.capa.c4 .nom{background:#3c4440}
+.capa.c0 .nom{background:#a86a00}
 
-    .nav-links a:hover {
-      background: var(--soft);
-      color: var(--primary);
-    }
+pre{margin:0;background:var(--tinta);color:#e9eeeb;border-radius:12px;padding:20px 24px;font-family:var(--mono);font-size:18px;line-height:1.5;white-space:pre;overflow:hidden}
+pre .c{color:#8fa69a} pre .k{color:var(--sorra)} pre .s{color:var(--cel)}
 
-    main {
-      max-width: 1180px;
-      margin: 0 auto;
-      padding: 1.5rem 1.2rem 4rem;
-    }
+.xifres{display:flex;gap:0}
+.xifra{flex:1;border-left:5px solid var(--tinta);padding:4px 0 4px 22px}
+.xifra b{display:block;font-family:var(--titol);font-weight:800;font-size:64px;line-height:1}
+.xifra span{font-size:20px;color:var(--mut)}
 
-    section {
-      margin-top: 2rem;
-    }
+/* Línia de temps */
+.temps{position:relative;display:grid;grid-template-columns:repeat(8,1fr);gap:14px;margin-top:10px}
+.temps::before{content:"";position:absolute;left:0;right:0;top:15px;height:4px;background:var(--tinta)}
+.fita{position:relative;padding-top:42px}
+.fita::before{content:"";position:absolute;left:0;top:5px;width:24px;height:24px;border-radius:50%;background:var(--pista);border:4px solid #fff;box-shadow:0 0 0 3px var(--pista)}
+.fita.pub::before{background:var(--vermell);box-shadow:0 0 0 3px var(--vermell)}
+.fita .data{font-family:var(--mono);font-weight:600;font-size:24px;margin-bottom:10px}
+.fita p{font-size:22px;line-height:1.35}
 
-    .slide {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      padding: 1.4rem;
-    }
+/* Arquitectura (EN) */
+.arq{display:grid;grid-template-columns:270px 150px 1fr 150px 290px;align-items:stretch;gap:0}
+.bloc{border:3px solid var(--tinta);border-radius:14px;padding:18px 20px;background:#fff}
+.bloc h3{font-size:28px;margin-bottom:8px}
+.bloc p{font-size:20px;line-height:1.35}
+.bloc.serv{background:var(--gris)}
+.mod{background:#fff;border:2px solid var(--linia);border-radius:10px;padding:10px 14px;font-size:20px;margin-top:10px}
+.mod b{font-family:var(--titol);text-transform:uppercase;font-size:22px;letter-spacing:.3px}
+.fletxa{display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;font-family:var(--mono);font-size:15px;color:var(--mut);padding:0 8px}
+.fletxa i{font-style:normal;font-size:40px;color:var(--tinta);line-height:1}
 
-    .hero {
-      min-height: 72vh;
-      display: grid;
-      grid-template-columns: 1.3fr 0.9fr;
-      gap: 1.6rem;
-      align-items: center;
-    }
+.franja{background:var(--tinta);color:#fff;border-radius:12px;padding:20px 28px;font-size:25px;line-height:1.35}
+.franja b{color:var(--sorra);font-weight:600}
 
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-      background: var(--soft);
-      color: var(--primary);
-      padding: 0.35rem 0.75rem;
-      border-radius: 999px;
-      font-weight: 700;
-      font-size: 0.85rem;
-    }
+/* Portada */
+.portada .cos{padding-top:56px}
+.portada h1{font-size:250px;font-weight:800;line-height:.8;letter-spacing:-2px}
+.portada h1 b{color:var(--vermell);font-weight:800}
+.foto-portada{position:absolute;right:0;bottom:0;width:860px;height:560px;object-fit:cover;object-position:30% 50%;border-top-left-radius:24px}
 
-    h1 {
-      font-size: clamp(2.1rem, 5vw, 4rem);
-      line-height: 1.05;
-      margin: 1rem 0 0.8rem;
-      color: var(--primary);
-      letter-spacing: -0.04em;
-    }
+/* Navegació */
+.nav{position:fixed;right:14px;bottom:12px;display:flex;gap:6px;z-index:5;opacity:.25;transition:opacity .2s}
+.nav:hover{opacity:1}
+.nav button{font-family:var(--mono);font-size:14px;border:2px solid var(--tinta);background:#fff;border-radius:8px;padding:6px 10px;cursor:pointer}
+.notes{display:none}
 
-    h2 {
-      color: var(--primary);
-      font-size: clamp(1.55rem, 3vw, 2.35rem);
-      margin: 0 0 1rem;
-      letter-spacing: -0.03em;
-    }
-
-    h3 {
-      color: var(--primary-dark);
-      margin-top: 0;
-      margin-bottom: 0.55rem;
-    }
-
-    p {
-      color: var(--muted);
-      line-height: 1.65;
-      font-size: 1rem;
-    }
-
-    .lead {
-      font-size: 1.15rem;
-      max-width: 780px;
-    }
-
-    .hero-card {
-      background: linear-gradient(160deg, var(--primary), #0e72df);
-      color: white;
-      border-radius: var(--radius);
-      padding: 1.35rem;
-      box-shadow: var(--shadow);
-    }
-
-    .hero-card p,
-    .hero-card li {
-      color: rgba(255, 255, 255, 0.88);
-    }
-
-    .hero-card h3 {
-      color: white;
-    }
-
-    .btn-row {
-      display: flex;
-      gap: 0.7rem;
-      flex-wrap: wrap;
-      margin-top: 1.2rem;
-    }
-
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-      padding: 0.65rem 1rem;
-      border-radius: 999px;
-      text-decoration: none;
-      font-weight: 700;
-      font-size: 0.92rem;
-      border: 1px solid transparent;
-      transition: 0.15s ease;
-    }
-
-    .btn-primary {
-      background: var(--primary);
-      color: white;
-      box-shadow: 0 8px 18px rgba(0, 74, 173, 0.28);
-    }
-
-    .btn-primary:hover {
-      background: var(--primary-dark);
-    }
-
-    .btn-outline {
-      background: white;
-      color: var(--primary);
-      border-color: var(--border);
-    }
-
-    .btn-outline:hover {
-      background: var(--soft);
-    }
-
-    .grid-2 {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 1rem;
-    }
-
-    .grid-3 {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 1rem;
-    }
-
-    .mini-card {
-      background: #f9fbff;
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 1rem;
-    }
-
-    .mini-card p {
-      margin-bottom: 0;
-      font-size: 0.95rem;
-    }
-
-    ul {
-      padding-left: 1.1rem;
-      color: var(--muted);
-      line-height: 1.55;
-    }
-
-    li {
-      margin-bottom: 0.35rem;
-    }
-
-    .tag-list {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-      margin-top: 0.8rem;
-    }
-
-    .tag {
-      background: var(--soft);
-      color: var(--primary);
-      padding: 0.35rem 0.65rem;
-      border-radius: 999px;
-      font-size: 0.82rem;
-      font-weight: 700;
-    }
-
-    .diagram {
-      background: #0f172a;
-      color: white;
-      border-radius: 16px;
-      padding: 1rem;
-      overflow-x: auto;
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-      line-height: 1.55;
-      font-size: 0.86rem;
-      white-space: pre;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 0.8rem;
-      font-size: 0.93rem;
-    }
-
-    th, td {
-      border: 1px solid var(--border);
-      padding: 0.65rem;
-      text-align: left;
-      vertical-align: top;
-    }
-
-    th {
-      background: var(--soft);
-      color: var(--primary);
-    }
-
-    .timeline {
-      border-left: 4px solid var(--soft);
-      padding-left: 1rem;
-      margin-top: 0.8rem;
-    }
-
-    .timeline-item {
-      position: relative;
-      margin-bottom: 1.2rem;
-    }
-
-    .timeline-item::before {
-      content: "";
-      position: absolute;
-      left: -1.42rem;
-      top: 0.3rem;
-      width: 13px;
-      height: 13px;
-      background: var(--primary);
-      border-radius: 50%;
-      border: 3px solid white;
-      box-shadow: 0 0 0 2px var(--primary);
-    }
-
-    .timeline-title {
-      font-weight: 800;
-      color: var(--primary-dark);
-    }
-
-    .status {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.35rem;
-      padding: 0.3rem 0.55rem;
-      border-radius: 999px;
-      font-size: 0.78rem;
-      font-weight: 800;
-    }
-
-    .done {
-      background: #e6f9f1;
-      color: var(--success);
-    }
-
-    .pending {
-      background: #fff6df;
-      color: #9a6700;
-    }
-
-    .risk {
-      background: #ffecec;
-      color: #b42318;
-    }
-
-    .footer {
-      text-align: center;
-      color: var(--muted);
-      font-size: 0.85rem;
-      margin-top: 2.5rem;
-    }
-
-    .slide-number {
-      font-size: 0.8rem;
-      color: var(--muted);
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      margin-bottom: 0.45rem;
-    }
-
-    @media (max-width: 850px) {
-      .hero,
-      .grid-2,
-      .grid-3 {
-        grid-template-columns: 1fr;
-      }
-
-      .nav {
-        align-items: flex-start;
-        flex-direction: column;
-      }
-
-      .nav-links {
-        justify-content: flex-start;
-      }
-    }
-  </style>
+@media print{
+  @page{size:1600px 900px;margin:0}
+  html,body{height:auto;overflow:visible;background:#fff}
+  .slide{display:flex!important;position:relative;left:0;top:0;transform:none;break-after:page;page-break-after:always}
+  .nav{display:none}
+}
+</style>
 </head>
-
 <body>
-  <header>
-    <div class="nav">
-      <div class="logo">
-        <span class="logo-badge">GYM</span>
-        <span>GYM ZERO · Presentació</span>
-      </div>
 
-      <nav class="nav-links">
-        <a href="#context">Context</a>
-        <a href="#abast">Abast</a>
-        <a href="#solucions">Solucions</a>
-        <a href="#integracio">Integració</a>
-        <a href="#planificacio">Planificació</a>
-        <a href="#demo">Demo</a>
-        <a href="#resultats">Resultats</a>
-        <a href="#conclusions">Conclusions</a>
-      </nav>
+<!-- 1 · PORTADA -->
+<section class="slide portada">
+  <div class="cap"><span class="seccio">Projecte Intermodular · SMX2 · INS Palamós · Curs 2026-27</span><span class="seccio">gymzero.cat</span></div>
+  <div class="cos">
+    <h1>GYM<b>ZERO</b></h1>
+    <p class="gran" style="margin-top:34px;max-width:620px">Digitalitzar un gimnàs que funciona sense cap tecnologia.</p>
+    <p style="margin-top:40px;font-family:var(--titol);font-weight:700;font-size:40px;text-transform:uppercase">Jan Palahí</p>
+  </div>
+  <img class="foto-portada" src="img/maqueta-general.jpg" alt="Maqueta 3D del gimnàs amb les 20 màquines, la recepció i la sala de classes">
+  <aside class="notes">Bon dia. Soc en Jan Palahí i us presento GYM-ZERO, el meu Projecte Intermodular. La idea és agafar un gimnàs que no té res de tecnologia i digitalitzar-lo: la web, les reserves, les quotes, les màquines que recullen l'entrenament i la xarxa del local. El gimnàs és inventat, però la web, el codi i la base de dades són reals i estan funcionant a gymzero.cat.</aside>
+</section>
+
+<!-- 2 · PUNT DE PARTIDA -->
+<section class="slide">
+  <div class="cap"><span class="logo">GYM<b>ZERO</b></span><span class="seccio">El punt de partida</span></div>
+  <div class="cos">
+    <h2>Un gimnàs <span class="verm">0.0</span></h2>
+    <p class="gran mut" style="margin-bottom:34px;max-width:1200px">Gym Zero té 20 màquines de força, una zona de cardio i una sala de classes. Avui tot es fa a mà.</p>
+    <div class="fila problemes" style="gap:24px">
+      <div class="targeta col"><h3>Reserves</h3><p>Es truca per telèfon i s'apunta en una llibreta. Ningú sap quantes places queden.</p></div>
+      <div class="targeta col"><h3>Quotes</h3><p>Es cobren a recepció i s'apunten en un paper. No se sap qui la té pagada.</p></div>
+      <div class="targeta col"><h3>Entrenaments</h3><p>Cada client apunta els pesos en una llibreta, si ho fa. No hi ha cap historial.</p></div>
+      <div class="targeta col"><h3>Tecnologia</h3><p>No hi ha wifi, ni ordinadors, ni web. El control d'entrada és la persona de recepció.</p></div>
     </div>
-  </header>
+    <div class="franja" style="margin-top:auto;margin-bottom:10px">El gimnàs és inventat. <b>La web, el codi, la base de dades i el servidor són reals.</b></div>
+  </div>
+  <div class="peu"><span>gymzero.cat</span><span class="num"></span></div>
+  <aside class="notes">El punt de partida és un gimnàs "zero": les reserves de les classes es fan per telèfon, les quotes s'apunten en paper i cada client porta els seus pesos en una llibreta. No hi ha ni wifi ni ordinadors. El que he fet és pensar com es digitalitzaria tot això. Vull deixar clar des del principi que el gimnàs no existeix, però tot el que us ensenyaré de la web està programat i funcionant en un servidor real.</aside>
+</section>
 
-  <main>
-    <!-- PORTADA -->
-    <section id="portada" class="hero">
-      <div class="slide">
-        <span class="badge">Projecte Intermodular SMX2 · 2025/2026</span>
-        <h1>GYM ZERO</h1>
-        <p class="lead">
-          Transformació digital d’un gimnàs tradicional cap a un model de
-          <strong>Gimnàs 4.0</strong>, integrant web pública, eines interactives,
-          planificació tècnica, infraestructura proposada, base de dades i un mòdul LAB simulat.
-        </p>
-
-        <div class="btn-row">
-          <a class="btn btn-primary" href="#context">Començar presentació</a>
-          <a class="btn btn-outline" href="https://github.com/janpalahi-commits/GYM-ZERO" target="_blank">
-            Repositori GitHub
-          </a>
+<!-- 3 · ABAST I ACTORS -->
+<section class="slide">
+  <div class="cap"><span class="logo">GYM<b>ZERO</b></span><span class="seccio">Abast i actors</span></div>
+  <div class="cos">
+    <h2>Qui fa servir el sistema</h2>
+    <div class="fila" style="gap:56px">
+      <div class="col" style="flex:1.25">
+        <div class="capes" style="gap:14px">
+          <div class="ratlla"><h3 style="margin-bottom:4px">Client</h3><p class="mitja">Reserva classes, mira el seu entrenament i apunta les sèries.</p></div>
+          <div class="ratlla"><h3 style="margin-bottom:4px">Administrador</h3><p class="mitja">Recepció i entrenador: dona d'alta, cobra quotes, programa classes i fa els plans.</p></div>
+          <div class="ratlla"><h3 style="margin-bottom:4px">Màquina intel·ligent</h3><p class="mitja">Reconeix el client per la polsera i envia cada sèrie al servidor.</p></div>
+          <div class="ratlla"><h3 style="margin-bottom:4px">Torn d'entrada</h3><p class="mitja">Llegeix la polsera i només deixa passar si la quota està pagada.</p></div>
         </div>
-
-        <p style="margin-top:1rem;">
-          <strong>Autor:</strong> Jan Palahí ·
-          <strong>Cicle:</strong> SMX2 ·
-          <strong>Centre:</strong> INS Palamos
-        </p>
       </div>
-
-      <aside class="hero-card">
-        <h3>Objectiu principal</h3>
-        <p>
-          Dissenyar i demostrar una solució informàtica realista per modernitzar
-          la gestió d’un gimnàs que inicialment no disposa de tecnologia.
-        </p>
-        <ul>
-          <li>Web pública</li>
-          <li>Calculadores interactives</li>
-          <li>Funcionalitat PHP</li>
-          <li>Base de dades</li>
-          <li>Infraestructura proposada</li>
-          <li>LAB científic simulat</li>
+      <div class="col">
+        <div class="etiq">Queda fora del projecte</div>
+        <ul class="llista">
+          <li>Construir les màquines i el torn: es dissenyen i se simulen.</li>
+          <li>Pagar per internet: les quotes es cobren a recepció.</li>
+          <li>Una app de mòbil: la web s'adapta al mòbil.</li>
+          <li>Consells mèdics o de salut.</li>
         </ul>
-      </aside>
-    </section>
+        <div class="etiq" style="margin-top:30px">Com marco cada part</div>
+        <p class="mitja" style="margin-bottom:10px"><span class="estat fet">Funciona</span> programat i en marxa a gymzero.cat</p>
+        <p class="mitja" style="margin-bottom:10px"><span class="estat sim">Simulat</span> un programa fa el paper de l'aparell</p>
+        <p class="mitja"><span class="estat dis">Dissenyat</span> documentat, però no construït</p>
+      </div>
+    </div>
+  </div>
+  <div class="peu"><span>gymzero.cat</span><span class="num"></span></div>
+  <aside class="notes">Hi ha quatre actors. El client, que reserva i consulta el seu entrenament. L'administrador, que és la recepció i l'entrenador. I dos aparells: la màquina intel·ligent i el torn d'entrada. Construir aparells queda fora del projecte: els he dissenyat i els simulo amb programes. Al llarg de la presentació marco cada part amb un d'aquests tres colors: verd si funciona de veritat, groc si és simulat i blau si només està dissenyat.</aside>
+</section>
 
-    <!-- CONTEXT -->
-    <section id="context" class="slide">
-      <div class="slide-number">01 · Context i situació inicial</div>
-      <h2>Un gimnàs 0.0 sense digitalització</h2>
+<!-- 4 · CASOS D'ÚS -->
+<section class="slide">
+  <div class="cap"><span class="logo">GYM<b>ZERO</b></span><span class="seccio">Casos d'ús</span></div>
+  <div class="cos">
+    <h2>Casos d'ús principals</h2>
+    <table>
+      <tr><th style="width:24%">Actor</th><th>Cas d'ús</th><th style="width:30%">Estat</th></tr>
+      <tr><td class="actor" rowspan="3">Client</td><td><b>Reservar una classe</b></td><td><span class="estat fet">Funciona</span></td></tr>
+      <tr><td>Consultar el meu entrenament</td><td><span class="estat fet">Funciona</span></td></tr>
+      <tr><td>Apuntar una sèrie a la llibreta</td><td><span class="estat fet">Funciona</span></td></tr>
+      <tr><td class="actor" rowspan="2">Administrador</td><td>Donar d'alta un client i cobrar la quota</td><td><span class="estat fet">Funciona</span></td></tr>
+      <tr><td>Programar les classes de la setmana</td><td><span class="estat fet">Funciona</span></td></tr>
+      <tr><td class="actor">Màquina</td><td><b>Enviar una sèrie</b></td><td><span class="estat fet">API</span> <span class="estat sim">Simulador</span> <span class="estat dis">Màquina</span></td></tr>
+      <tr><td class="actor">Torn</td><td>Validar l'entrada d'un client</td><td><span class="estat fet">API</span> <span class="estat sim">Simulador</span> <span class="estat dis">Torn</span></td></tr>
+    </table>
+    <p class="mitja mut" style="margin-top:22px">Ara n'explico dos amb detall: un de persona i un d'aparell.</p>
+  </div>
+  <div class="peu"><span>gymzero.cat</span><span class="num"></span></div>
+  <aside class="notes">Aquests són els casos d'ús principals. Tots els del client i de l'administrador funcionen a la web. En els de la màquina i el torn, la part del servidor, que és l'API, funciona; el que fa el paper de l'aparell és un simulador fet en C++, i l'aparell real està dissenyat. Ara explicaré dos casos amb detall, i per a cadascun les capes que hi intervenen.</aside>
+</section>
 
-      <p>
-        El projecte parteix d’un gimnàs tradicional que treballa de manera pràcticament
-        analògica. Els registres de socis, les reserves, els cobraments i la comunicació
-        amb els clients es fan manualment o amb eines poc centralitzades.
-      </p>
+<!-- 5 · CU RESERVAR -->
+<section class="slide">
+  <div class="cap"><span class="logo">GYM<b>ZERO</b></span><span class="seccio">Cas d'ús 1 · Client</span></div>
+  <div class="cos">
+    <h2>Reservar <span class="verd">una classe</span></h2>
+    <div class="fila" style="gap:48px">
+      <div class="col" style="flex:1.05">
+        <div class="etiq">Precondició</div>
+        <p class="mitja" style="margin-bottom:18px">El client té un compte actiu i la quota pagada fins al dia de la classe.</p>
+        <div class="etiq">Flux principal</div>
+        <ol class="passos" style="margin-bottom:16px">
+          <li>Entra amb el seu correu i la contrasenya.</li>
+          <li>Obre «Classes» i tria una classe.</li>
+          <li>Prem «Reservar».</li>
+          <li>El sistema bloqueja la classe i comprova que queden places.</li>
+          <li>Desa la reserva i mostra «Reserva confirmada».</li>
+        </ol>
+        <div class="etiq">Flux alternatiu</div>
+        <p class="mitja" style="margin-bottom:16px"><b>4a.</b> No queden places: surt «No queden places» i no es desa res.</p>
+        <div class="etiq">Postcondició</div>
+        <p class="mitja">La reserva queda confirmada i la classe té una plaça lliure menys.</p>
+      </div>
+      <figure class="col" style="flex:.95">
+        <div class="captura"><img src="img/web-reserves.jpg" alt="Pàgina Properes classes amb les places lliures i els botons Reservar i Cancel·lar"></div>
+        <figcaption>Properes classes, amb les places lliures de cada una.</figcaption>
+      </figure>
+    </div>
+  </div>
+  <div class="peu"><span>gymzero.cat</span><span class="num"></span></div>
+  <aside class="notes">El primer cas és reservar una classe. La precondició és tenir el compte actiu i la quota pagada fins al dia de la classe. El client entra, obre Classes, tria una classe i prem Reservar. El sistema comprova que queden places, desa la reserva i li ho confirma. Si no queden places, li ho diu i no es desa res. Al final hi ha una reserva confirmada i una plaça menys.</aside>
+</section>
 
-      <div class="grid-2">
-        <div class="mini-card">
-          <h3>Problemes detectats</h3>
-          <ul>
-            <li>Errors en registres i reserves.</li>
-            <li>Pèrdua o duplicació d’informació.</li>
-            <li>No hi ha una base de dades centralitzada.</li>
-            <li>No existeix una infraestructura de xarxa definida.</li>
-            <li>No hi ha canals digitals potents per als clients.</li>
-          </ul>
-        </div>
-
-        <div class="mini-card">
-          <h3>Valor que aporta el sistema</h3>
-          <ul>
-            <li>Millora de l’organització interna.</li>
-            <li>Centralització de dades.</li>
-            <li>Web pública accessible.</li>
-            <li>Eines interactives per als usuaris.</li>
-            <li>Base per a futures millores 4.0.</li>
-          </ul>
+<!-- 6 · CAPES RESERVAR -->
+<section class="slide">
+  <div class="cap"><span class="logo">GYM<b>ZERO</b></span><span class="seccio">Cas d'ús 1 · Capes</span></div>
+  <div class="cos">
+    <h2>Les capes d'una reserva</h2>
+    <div class="fila" style="gap:40px">
+      <div class="capes col" style="flex:1.15">
+        <div class="capa c1"><div class="nom">Presentació</div><div class="que"><code>reserves/index.php</code>: llista de classes i botó «Reservar». Cada formulari porta un codi CSRF.</div></div>
+        <div class="capa c2"><div class="nom">Lògica</div><div class="que"><code>inc/reserves.php</code> → <code>reservar()</code>: dins d'una transacció comprova la quota, si ja la tenia reservada i si queden places.</div></div>
+        <div class="capa c3"><div class="nom">Dades</div><div class="que">MariaDB: <code>classes</code>, <code>reserves</code>, <code>usuaris</code> i <code>notificacions</code>. Una reserva per client i classe (clau única).</div></div>
+        <div class="capa c4"><div class="nom">Infraestructura</div><div class="que">Dinahosting: Apache, PHP 8.4 i MariaDB 11.8, sempre per https.</div></div>
+      </div>
+      <div class="col" style="flex:.85;display:flex;flex-direction:column;gap:20px">
+<pre><span class="c">-- bloqueja la classe fins al COMMIT</span>
+<span class="k">SELECT</span> c.places, c.inici ...
+  <span class="k">FROM</span> classes c
+ <span class="k">WHERE</span> c.id = ? <span class="k">FOR UPDATE</span></pre>
+        <div class="targeta">
+          <h3>La prova</h3>
+          <p style="margin-bottom:10px">Queda 1 plaça i 3 clients la reserven alhora.</p>
+          <p><b class="mono" style="color:var(--vermell)">4 de 2</b> sense bloqueig</p>
+          <p><b class="mono" style="color:var(--pista)">2 de 2</b> amb <code>FOR UPDATE</code></p>
+          <p class="mut" style="font-size:18px;margin-top:10px"><code>proves/bd_concurrencia.php</code></p>
         </div>
       </div>
-    </section>
+    </div>
+  </div>
+  <div class="peu"><span>gymzero.cat</span><span class="num"></span></div>
+  <aside class="notes">Aquest cas passa per quatre capes. A la presentació hi ha la pàgina de classes. A la lògica, la funció reservar fa totes les comprovacions dins d'una transacció. A les dades hi ha les taules de classes, reserves i usuaris. I a la infraestructura, el servidor de Dinahosting. El més important és el SELECT FOR UPDATE: bloqueja la classe mentre es fa la reserva, i així dues persones no poden agafar l'última plaça alhora. Ho vaig provar amb tres clients reservant a la vegada: sense el bloqueig es feien 4 reserves en una classe de 2 places; amb el bloqueig, només 2.</aside>
+</section>
 
-    <!-- ABAST -->
-    <section id="abast" class="slide">
-      <div class="slide-number">02 · Abast i objectius</div>
-      <h2>Què inclou i què no inclou el projecte</h2>
-
-      <div class="grid-2">
-        <div class="mini-card">
-          <h3>Dins de l’abast</h3>
-          <ul>
-            <li>Disseny de la infraestructura tècnica del gimnàs.</li>
-            <li>Web pública del projecte.</li>
-            <li>Calculadores d’entrenament.</li>
-            <li>Proposta de panell intern.</li>
-            <li>LAB científic simulat.</li>
-          </ul>
-        </div>
-
-        <div class="mini-card">
-          <h3>Fora de l’abast inicial</h3>
-          <ul>
-            <li>Compra i instal·lació física real del maquinari.</li>
-            <li>Passarel·les de pagament reals.</li>
-            <li>Aplicació mòbil nativa.</li>
-            <li>Sensors biomètrics reals.</li>
-            <li>Integració real amb màquines comercials.</li>
-            <li>IA avançada o IoT real en la primera versió.</li>
-          </ul>
-        </div>
+<!-- 7 · CU ENVIAR UNA SÈRIE -->
+<section class="slide">
+  <div class="cap"><span class="logo">GYM<b>ZERO</b></span><span class="seccio">Cas d'ús 2 · Màquina</span></div>
+  <div class="cos">
+    <h2>Enviar <span class="verd">una sèrie</span></h2>
+    <div class="fila" style="gap:48px">
+      <div class="col" style="flex:.8">
+        <div class="etiq">Precondició</div>
+        <p class="mitja" style="margin-bottom:16px">La màquina està donada d'alta amb la seva clau i el client té una polsera assignada.</p>
+        <div class="etiq">Flux principal</div>
+        <ol class="passos" style="margin-bottom:14px">
+          <li>El client acosta la polsera al lector.</li>
+          <li>Tria el pes i fa la sèrie. La màquina mesura cada repetició.</li>
+          <li>La màquina envia la sèrie al servidor.</li>
+          <li>El servidor comprova la clau i la polsera i ho desa.</li>
+          <li>La pantalla mostra el resum de la sèrie.</li>
+        </ol>
+        <div class="etiq">Flux alternatiu</div>
+        <p class="mitja" style="margin-bottom:14px"><b>4a.</b> La polsera no és de ningú: el servidor respon un error i no desa res.</p>
+        <div class="etiq">Postcondició</div>
+        <p class="mitja">La sèrie surt a «El meu entrenament» i a la llibreta del client.</p>
       </div>
+      <figure class="col" style="flex:1.2;display:flex;flex-direction:column;justify-content:center">
+        <img src="img/maquina-blocs.jpg" alt="Diagrama de blocs de la màquina: lector RFID, encoder, botons i pantalla connectats a un ESP32 que envia les dades per wifi a gymzero.cat" style="width:100%;display:block">
+        <figcaption><span class="estat dis">Dissenyat</span> Lector RFID, encoder i ESP32. No l'he construït: el simulador en C++ envia les mateixes dades.</figcaption>
+      </figure>
+    </div>
+  </div>
+  <div class="peu"><span>gymzero.cat</span><span class="num"></span></div>
+  <aside class="notes">El segon cas és d'un aparell: la màquina envia una sèrie. El client acosta la polsera, tria el pes i fa la sèrie. Un sensor de desplaçament mesura cada repetició i l'ESP32 envia la sèrie al servidor per wifi. Si la polsera no és de ningú, el servidor respon amb un error i no desa res. La màquina està dissenyada, amb les peces i les connexions, però no l'he construït. En lloc seu, un simulador que he programat en C++ envia exactament les mateixes dades.</aside>
+</section>
 
-      <p>
-        L’objectiu general és dissenyar una solució informàtica coherent, escalable i
-        justificable tècnicament per convertir un gimnàs tradicional en un entorn més digitalitzat.
-      </p>
-    </section>
-
-    <!-- SOLUCIONS -->
-    <section id="solucions" class="slide">
-      <div class="slide-number">03 · Solucions tècniques</div>
-      <h2>Tecnologies i eines utilitzades</h2>
-
-      <table>
-        <thead>
-          <tr>
-            <th>Àrea</th>
-            <th>Tecnologia</th>
-            <th>Justificació</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Web pública</td>
-            <td>HTML, CSS, JavaScript</td>
-            <td>Permeten crear una web visual, responsive i amb interacció bàsica.</td>
-          </tr>
-          <tr>
-            <td>Calculadores</td>
-            <td>JavaScript</td>
-            <td>Els càlculs s’executen directament al navegador.</td>
-          </tr>
-          <tr>
-            <td>Funcionalitat obligatòria</td>
-            <td>PHP</td>
-            <td>Permet processar formularis i connectar amb base de dades.</td>
-          </tr>
-          <tr>
-            <td>Base de dades</td>
-            <td>MySQL / MariaDB</td>
-            <td>Adequada per gestionar socis, reserves, activitats i dades LAB.</td>
-          </tr>
-          <tr>
-            <td>Infraestructura</td>
-            <td>Ubuntu Server / LAMP / XAMPP</td>
-            <td>Entorn realista per provar serveis web i base de dades.</td>
-          </tr>
-          <tr>
-            <td>Gestió del projecte</td>
-            <td>GitHub + GanttLab</td>
-            <td>Permet gestionar issues, milestones, dependències i planificació.</td>
-          </tr>
-        </tbody>
-      </table>
-
-      <p>
-        Una decisió important és separar la part estàtica de la web, que pot estar publicada
-        a GitHub Pages o hosting, de la part PHP, que necessita un entorn compatible com XAMPP,
-        LAMP o un hosting amb PHP.
-      </p>
-    </section>
-
-    <!-- INTEGRACIO -->
-    <section id="integracio" class="slide">
-      <div class="slide-number">04 · Integració i interacció</div>
-      <h2>Com es connecten les parts del sistema</h2>
-
-      <p>
-        El sistema està pensat per funcionar per capes. La web pública mostra informació i eines
-        per als clients. El panell intern estaria orientat al personal del gimnàs. La funcionalitat
-        PHP permetria enviar dades cap a la base de dades. La infraestructura de xarxa i servidor
-        dona suport a aquests serveis.
-      </p>
-
-      <div class="diagram">Client / Soci
-   │
-   ▼
-Web pública ── Calculadores JS
-   │
-   ▼
-Formulari PHP
-   │
-   ▼
-Base de dades MySQL/MariaDB
-   │
-   ├── Reserves
-   ├── Socis
-   ├── Activitats
-   └── Dades LAB
-
-Personal / Entrenador
-   │
-   ▼
-Panell intern
-   │
-   ▼
-Gestió i consulta de dades</div>
-
-      <div class="tag-list">
-        <span class="tag">Web</span>
-        <span class="tag">PHP</span>
-        <span class="tag">Base de dades</span>
-        <span class="tag">Servidor</span>
-        <span class="tag">Xarxa</span>
-        <span class="tag">LAB</span>
+<!-- 8 · CAPES SÈRIE -->
+<section class="slide">
+  <div class="cap"><span class="logo">GYM<b>ZERO</b></span><span class="seccio">Cas d'ús 2 · Capes</span></div>
+  <div class="cos">
+    <h2>Les capes d'una sèrie</h2>
+    <div class="fila" style="gap:40px">
+      <div class="capes col" style="flex:1.2;gap:10px">
+        <div class="capa c0" style="min-height:76px"><div class="nom">Aparell</div><div class="que">ESP32 amb lector RFID i encoder <span class="estat dis">Dissenyat</span><br>Simulador <code>simulador.cpp</code> <span class="estat sim">Simulat</span></div></div>
+        <div class="capa c4" style="min-height:76px"><div class="nom">Xarxa</div><div class="que">Wifi del gimnàs, VLAN 20 de les màquines. HTTPS cap a gymzero.cat.</div></div>
+        <div class="capa c2" style="min-height:76px"><div class="nom">Lògica</div><div class="que"><code>api/serie.php</code>: comprova la clau de la màquina (guardada amb hash), busca el client per la polsera i desa la sèrie en una transacció.</div></div>
+        <div class="capa c3" style="min-height:76px"><div class="nom">Dades</div><div class="que"><code>entrenaments</code> → <code>series</code> → <code>repeticions</code>. La vista <code>v_resum_series</code> calcula la velocitat mitjana i quanta se n'ha perdut.</div></div>
+        <div class="capa c1" style="min-height:76px"><div class="nom">Presentació</div><div class="que">«El meu entrenament» (gràfics per màquina) i «La meva llibreta».</div></div>
       </div>
-    </section>
+<pre class="col" style="flex:.8;font-size:17px;align-self:flex-start"><span class="k">POST</span> /api/serie.php
+<span class="k">X-Token:</span> <span class="c">clau de la màquina</span>
 
-    <!-- PLANIFICACIO -->
-    <section id="planificacio" class="slide">
-      <div class="slide-number">05 · Planificació del projecte</div>
-      <h2>Fases, milestones i tasques</h2>
+{
+ <span class="s">"maquina"</span>: <span class="s">"PRESS-01"</span>,
+ <span class="s">"targeta"</span>: <span class="s">"04A1B2C3"</span>,
+ <span class="s">"carrega_kg"</span>: 62.5,
+ <span class="s">"repeticions"</span>: [
+  {<span class="s">"velocitat"</span>: 0.77,
+   <span class="s">"recorregut"</span>: 0.41,
+   <span class="s">"durada"</span>: 0.52},
+  ...
+ ]
+}</pre>
+    </div>
+  </div>
+  <div class="peu"><span>gymzero.cat</span><span class="num"></span></div>
+  <aside class="notes">Aquí les capes són cinc, perquè hi ha un aparell i una xarxa pel mig. La màquina, o el simulador, envia un JSON com aquest: el codi de la màquina, la polsera, el pes i, per a cada repetició, la velocitat, el recorregut i la durada. Va amb una clau a la capçalera, i al servidor aquesta clau està guardada amb hash, com una contrasenya. L'API comprova la clau i la polsera i ho desa en tres taules. Una vista de la base de dades calcula la velocitat mitjana de cada sèrie i quanta velocitat s'ha perdut, i això és el que veu el client als gràfics.</aside>
+</section>
 
-      <p>
-        El projecte s’organitza amb GitHub Issues i Milestones. Cada tasca té un objectiu,
-        una dependència i una data prevista. GanttLab permet visualitzar el calendari i detectar
-        quines tasques bloquegen altres parts del projecte.
-      </p>
+<!-- 9 · WEB CLIENT -->
+<section class="slide">
+  <div class="cap"><span class="logo">GYM<b>ZERO</b></span><span class="seccio">La web · Client</span></div>
+  <div class="cos">
+    <h2>El que veu el client</h2>
+    <div class="mosaic">
+      <div class="captura gran-cap"><img src="img/web-portada.jpg" alt="Portada de gymzero.cat amb l'horari de la setmana i les places lliures"><span class="rotul">Portada · cada punt és una plaça</span></div>
+      <div class="captura"><img src="img/web-entrenament.jpg" alt="El meu entrenament: dies entrenats, sèries, kg aixecats i gràfic de cada màquina"><span class="rotul">El meu entrenament</span></div>
+      <div class="captura"><img src="img/web-llibreta.jpg" alt="La meva llibreta: taula de 8 setmanes amb les sèries de cada exercici i els rècords en vermell"><span class="rotul">La meva llibreta · 8 setmanes</span></div>
+    </div>
+  </div>
+  <div class="peu"><span>Dades de clients inventats</span><span class="num"></span></div>
+  <aside class="notes">Aquí teniu el que veu un client. A la portada hi ha l'horari de la setmana i, amb punts, les places que queden. Amb el compte obert, a El meu entrenament veu els dies que ha vingut i un gràfic per màquina amb la càrrega de cada dia. I a la llibreta, que és com l'Excel que fan servir molts gimnasos, té vuit setmanes d'exercicis: les sèries de les màquines s'apunten soles i les altres les apunta ell. Si vull, ara ho puc ensenyar en directe a gymzero.cat.</aside>
+</section>
 
-      <div class="timeline">
-        <div class="timeline-item">
-          <div class="timeline-title">Fase 1 — Definició i disseny</div>
-          <p>Context, abast, actors, casos d’ús, objectius i arquitectura general.</p>
-        </div>
+<!-- 10 · WEB ADMIN -->
+<section class="slide">
+  <div class="cap"><span class="logo">GYM<b>ZERO</b></span><span class="seccio">La web · Administració</span></div>
+  <div class="cos">
+    <h2>El que veu la recepció</h2>
+    <div class="fila" style="gap:36px">
+      <figure class="col"><div class="captura"><img src="img/web-admin.jpg" alt="Panell d'administració amb clients actius, classes, reserves, entrades i l'estat de les còpies de seguretat"></div><figcaption><b>Panell.</b> Clients, classes, reserves, entrades i estat de les còpies.</figcaption></figure>
+      <figure class="col"><div class="captura"><img src="img/web-usuaris.jpg" alt="Llista d'usuaris amb polsera, quota, tarifa i el botó Simular dades (1 setmana)"></div><figcaption><b>Usuaris.</b> Polsera, tarifa i quota de cada client. «Simular dades» omple una setmana d'entrenament.</figcaption></figure>
+    </div>
+    <div class="fila" style="gap:20px;margin-top:auto;margin-bottom:6px">
+      <div class="targeta col" style="padding:16px 22px"><p class="mitja"><b>Gimnàs</b> · 55 € al mes</p></div>
+      <div class="targeta col" style="padding:16px 22px"><p class="mitja"><b>Gimnàs + pla</b> · 80 € al mes</p></div>
+      <div class="targeta col" style="padding:16px 22px"><p class="mitja"><b>Gimnàs + pla + seguiment</b> · 110 €</p></div>
+    </div>
+  </div>
+  <div class="peu"><span>gymzero.cat</span><span class="num"></span></div>
+  <aside class="notes">La recepció té un panell d'administració. Hi veu quants clients hi ha, les classes, les reserves, qui ha entrat avui i si les còpies de seguretat estan bé. A Usuaris dona d'alta els clients, els assigna la polsera i cobra la quota d'un o tres mesos segons la tarifa. Hi ha tres tarifes. El botó Simular dades l'he fet per poder ensenyar la web amb dades: fa com si el client hagués vingut una setmana sencera, amb les entrades pel torn i les sèries a les màquines.</aside>
+</section>
 
-        <div class="timeline-item">
-          <div class="timeline-title">Fase 2 — Disseny tècnic</div>
-          <p>Infraestructura, xarxa, serveis, base de dades, seguretat i tecnologies.</p>
-        </div>
+<!-- 11 · XARXA -->
+<section class="slide">
+  <div class="cap"><span class="logo">GYM<b>ZERO</b></span><span class="seccio">Infraestructura</span></div>
+  <div class="cos">
+    <h2 style="margin-bottom:18px">La xarxa del gimnàs <span class="estat dis" style="font-size:22px;vertical-align:14px">Dissenyada</span></h2>
+    <img src="img/xarxa-topologia.jpg" alt="Topologia de la xarxa: fibra, router tallafoc, switch PoE, 4 punts d'accés, PCs i 20 màquines repartits en 3 VLAN" style="height:480px;width:auto;max-width:100%;display:block;margin:-6px auto 0">
+    <div class="fila" style="gap:18px;margin-top:auto;margin-bottom:6px">
+      <div class="targeta col" style="padding:14px 20px"><p class="mitja"><b class="mono">VLAN 10</b> personal: PCs, impressora, tauleta</p></div>
+      <div class="targeta col" style="padding:14px 20px"><p class="mitja"><b class="mono">VLAN 20</b> 20 màquines i el torn</p></div>
+      <div class="targeta col" style="padding:14px 20px"><p class="mitja"><b class="mono">VLAN 30</b> mòbils dels clients</p></div>
+    </div>
+  </div>
+  <div class="peu"><span>gymzero.cat</span><span class="num"></span></div>
+  <aside class="notes">Aquesta és la xarxa que he dissenyat per al local. No està muntada. Entra la fibra, hi ha un router que fa de tallafoc i un switch amb PoE que alimenta els quatre punts d'accés. La xarxa està separada en tres VLAN: la del personal, la de les màquines i el torn, i la dels mòbils dels clients. Així el wifi dels clients no pot arribar a les màquines ni als ordinadors de recepció. La web no està al gimnàs: està a Dinahosting, i les màquines hi envien les dades per https.</aside>
+</section>
 
-        <div class="timeline-item">
-          <div class="timeline-title">Fase 3 — Desenvolupament</div>
-          <p>Web pública, calculadores, funcionalitat PHP, base de dades i panell intern.</p>
-        </div>
-
-        <div class="timeline-item">
-          <div class="timeline-title">Fase 4 — Validació i tancament</div>
-          <p>Proves, capturas, resultats, conclusions, memòria i presentació final.</p>
-        </div>
+<!-- 12 · SEGURETAT I CÒPIES -->
+<section class="slide">
+  <div class="cap"><span class="logo">GYM<b>ZERO</b></span><span class="seccio">Seguretat i còpies</span></div>
+  <div class="cos">
+    <h2>Seguretat i <span class="verd">còpies</span></h2>
+    <div class="fila" style="gap:56px">
+      <div class="col">
+        <div class="etiq">Seguretat de la web</div>
+        <ul class="llista gran">
+          <li>Sempre per https: el <code>.htaccess</code> redirigeix i bloqueja fitxers <code>.sql</code> i <code>.sh</code>.</li>
+          <li>Contrasenyes guardades amb <code>password_hash</code>.</li>
+          <li>Codi CSRF a tots els formularis.</li>
+          <li>5 intents fallits en 15 minuts i el compte queda bloquejat una estona.</li>
+          <li>Cada màquina té la seva clau, també amb hash.</li>
+          <li>La contrasenya de la base de dades no és mai a GitHub.</li>
+        </ul>
       </div>
-    </section>
-
-    <!-- DEMO -->
-    <section id="demo" class="slide">
-      <div class="slide-number">06 · Exemple de web i programa</div>
-      <h2>Demostració funcional</h2>
-
-      <div class="grid-3">
-        <div class="mini-card">
-          <h3>Web pública</h3>
-          <p>
-            La web mostra el projecte, el context, la infraestructura proposada, les fases
-            i la informació principal del GYM ZERO.
-          </p>
-          <span class="status done">Disponible</span>
+      <div class="col">
+        <div class="etiq">Còpies de seguretat (3-2-1)</div>
+        <div class="capes" style="gap:10px">
+          <div class="capa c3"><div class="nom" style="font-size:24px">1 · Original</div><div class="que">La base de dades MariaDB a Dinahosting.</div></div>
+          <div class="capa c2"><div class="nom" style="font-size:24px">2 · Servidor</div><div class="que">La web en fa una còpia cada dia i en guarda 14, fora de la carpeta pública.</div></div>
+          <div class="capa c1"><div class="nom" style="font-size:24px">3 · Fora</div><div class="que">El PC de recepció es baixa la del dia amb una clau pròpia.</div></div>
         </div>
-
-        <div class="mini-card">
-          <h3>Calculadores</h3>
-          <p>
-            Les calculadores 1RM, IMC i TDEE estan implementades amb JavaScript i permeten
-            una primera interacció amb l’usuari.
-          </p>
-          <span class="status done">Funcional</span>
-        </div>
-
-        <div class="mini-card">
-          <h3>Funcionalitat PHP</h3>
-          <p>
-            Es preveu implementar un formulari de reserva de classe o alta de soci connectat
-            amb una base de dades MySQL/MariaDB.
-          </p>
-          <span class="status done">Funcional</span>
-        </div>
+        <p class="mitja mut" style="margin-top:16px">El panell avisa si una còpia falla. Restaurar-ne una està provat.</p>
       </div>
+    </div>
+  </div>
+  <div class="peu"><span>gymzero.cat</span><span class="num"></span></div>
+  <aside class="notes">Pel que fa a la seguretat, la web sempre va per https, les contrasenyes es guarden amb hash, tots els formularis porten un codi contra atacs CSRF i, si algú s'equivoca cinc vegades seguides, el compte queda bloquejat quinze minuts. Les còpies segueixen la regla 3-2-1: la base de dades original, una còpia diària al mateix servidor, fora de la carpeta pública, i una tercera còpia que el PC de recepció es baixa cada dia. Com que el servidor no té cron, la còpia la fa la mateixa web amb la primera visita del dia.</aside>
+</section>
 
-      <p>
-        La funcionalitat PHP serà una part clau de la demostració, ja que permetrà veure com
-        les dades introduïdes en un formulari es processen i s’emmagatzemen a la base de dades.
-      </p>
+<!-- 13 · PLANIFICACIÓ -->
+<section class="slide">
+  <div class="cap"><span class="logo">GYM<b>ZERO</b></span><span class="seccio">Planificació</span></div>
+  <div class="cos">
+    <h2>Com ho he fet</h2>
+    <p class="mitja mut" style="margin-bottom:34px">Dates reals dels commits del repositori <span class="mono">janpalahi-commits/gym-zero</span>.</p>
+    <div class="temps">
+      <div class="fita"><div class="data">28/09</div><p>Esquema dels serveis, aprovat pel professor.</p></div>
+      <div class="fita"><div class="data">07/10</div><p>Revisió del curs passat i arquitectura.</p></div>
+      <div class="fita"><div class="data">14–19/10</div><p>Base de dades, comptes, reserves, administració, API, simulador i còpies.</p></div>
+      <div class="fita"><div class="data">20/10</div><p>Web pública, disseny de la màquina i de la xarxa.</p></div>
+      <div class="fita"><div class="data">27/10</div><p>Torn d'entrada, quotes i maqueta 3D.</p></div>
+      <div class="fita"><div class="data">28/10</div><p>Disseny nou de la web i recuperar la contrasenya.</p></div>
+      <div class="fita pub"><div class="data">02/11</div><p>Tarifes, pla i llibreta. <b>Publicada a gymzero.cat.</b></p></div>
+      <div class="fita"><div class="data">03/11</div><p>Seguretat, còpies automàtiques i simulació.</p></div>
+    </div>
+    <div class="fila" style="gap:20px;margin-top:auto;margin-bottom:6px">
+      <div class="targeta col" style="padding:18px 24px"><div class="etiq">Després</div><p class="mitja">Memòria tècnica, planificació a GitHub (fites, issues i Gantt) i aquesta presentació.</p></div>
+    </div>
+  </div>
+  <div class="peu"><span>gymzero.cat</span><span class="num"></span></div>
+  <aside class="notes">Aquí teniu com ha anat la feina, amb les dates reals dels commits. Vaig començar a finals de setembre amb l'esquema dels serveis, que el professor va aprovar. A mitjan octubre vaig fer la base de dades, les reserves i l'API de les màquines. Després la web pública, la xarxa i el torn. El 2 de novembre la web va quedar publicada a gymzero.cat, i l'endemà hi vaig afegir la seguretat i les còpies automàtiques. Després vaig fer la memòria i la planificació a GitHub.</aside>
+</section>
 
-	<div class="btn-row">
- 	 <a class="btn btn-primary" href="http://gym-zero.cat" target="_blank">
-   	 🌐 Obrir web GYM ZERO
- 	 </a>
-	</div>
-    </section>
-
-    <!-- RESULTATS -->
-    <section id="resultats" class="slide">
-      <div class="slide-number">07 · Resultats i validació</div>
-      <h2>Què s’ha aconseguit i com es valida</h2>
-
-      <div class="grid-2">
-        <div class="mini-card">
-          <h3>Resultats actuals</h3>
-          <ul>
-            <li>Repositori GitHub creat.</li>
-            <li>Web inicial publicada.</li>
-            <li>Context i abast redactats.</li>
-            <li>Fases inicials definides.</li>
-            <li>Calculadores web preparades.</li>
-            <li>Base de la memòria tècnica iniciada.</li>
-          </ul>
-        </div>
-
-        <div class="mini-card">
-          <h3>Validació prevista</h3>
-          <ul>
-            <li>Captura de la web publicada.</li>
-            <li>Prova de les calculadores.</li>
-            <li>Prova del formulari PHP.</li>
-            <li>Comprovació de dades a la base de dades.</li>
-            <li>Captura del Gantt i GitHub Issues.</li>
-            <li>Revisió final amb la memòria tècnica.</li>
-          </ul>
-        </div>
+<!-- 14 · ARCHITECTURE (EN) -->
+<section class="slide" lang="en">
+  <div class="cap"><span class="logo">GYM<b>ZERO</b></span><span class="seccio">Architecture<span class="en">EN</span></span></div>
+  <div class="cos">
+    <h2>System architecture</h2>
+    <div class="arq">
+      <div class="bloc">
+        <h3>Users</h3>
+        <p>Web browser on a computer or a phone.</p>
+        <div class="mod"><b>Clients</b><br>bookings, training history, logbook</div>
+        <div class="mod"><b>Reception &amp; trainer</b><br>admin panel</div>
       </div>
-    </section>
-
-    <!-- ENGLISH 1 -->
-    <section id="english-architecture" class="slide">
-      <div class="slide-number">08 · English slide</div>
-      <h2>System Architecture</h2>
-
-      <p>
-        GYM ZERO is designed as a layered system. The public website provides information
-        and interactive tools for users. The internal panel is planned to manage gym data
-        such as members, bookings and LAB records. PHP connects web forms with the database,
-        while the server infrastructure supports internal services, backups and security.
-      </p>
-
-      <div class="grid-2">
-        <div class="mini-card">
-          <h3>Main components</h3>
-          <ul>
-            <li>Public website</li>
-            <li>Internal management panel</li>
-            <li>PHP functionality</li>
-            <li>MySQL/MariaDB database</li>
-            <li>Server infrastructure</li>
-            <li>Network segmentation</li>
-          </ul>
+      <div class="fletxa"><i>⇄</i>HTTPS</div>
+      <div class="bloc serv">
+        <h3>gymzero.cat · Dinahosting</h3>
+        <p>Apache and PHP 8.4 <span class="estat fet">Implemented</span></p>
+        <div class="fila" style="gap:10px">
+          <div class="mod col"><b>Public website</b><br>timetable, activities, calculators</div>
+          <div class="mod col"><b>Private area</b><br>client area and admin panel</div>
         </div>
-
-        <div class="mini-card">
-          <h3>Technical value</h3>
-          <p>
-            The project connects web development, databases, network design, services and
-            cybersecurity into a single realistic digital transformation proposal.
-          </p>
-        </div>
+        <div class="mod"><b>REST API</b><br><code>api/serie.php</code> and <code>api/entrada.php</code>, one key per device</div>
+        <div class="mod" style="background:var(--tinta);color:#fff;border-color:var(--tinta)"><b>MariaDB 11.8</b><br>22 tables, transactions and row locking</div>
+        <div class="mod"><b>Backups</b><br>daily copy on the server + reception PC</div>
       </div>
-    </section>
-
-    <!-- ENGLISH 2 -->
-    <section id="english-results" class="slide">
-      <div class="slide-number">09 · English slide</div>
-      <h2>Results and Future Improvements</h2>
-
-      <p>
-        The project provides a realistic proposal to transform a traditional gym into a Gym 4.0.
-        The first version includes a public website, interactive calculators, technical planning,
-        database design and a planned PHP functionality.
-      </p>
-
-      <div class="grid-2">
-        <div class="mini-card">
-          <h3>Current results</h3>
-          <ul>
-            <li>Initial website published</li>
-            <li>Project documentation started</li>
-            <li>Interactive calculators designed</li>
-            <li>Technical architecture defined</li>
-          </ul>
-        </div>
-
-        <div class="mini-card">
-          <h3>Future improvements</h3>
-          <ul>
-            <li>Mobile application</li>
-            <li>Real IoT sensors</li>
-            <li>RFID access control</li>
-            <li>Online payments</li>
-            <li>Advanced LAB reports</li>
-            <li>AI-based training recommendations</li>
-          </ul>
-        </div>
+      <div class="fletxa"><i>⇄</i>HTTPS<br>JSON + key</div>
+      <div class="bloc">
+        <h3>Devices</h3>
+        <p>On the gym network (VLAN 20).</p>
+        <div class="mod"><b>Smart machines</b><br>ESP32, RFID reader, encoder <span class="estat dis">Designed</span></div>
+        <div class="mod"><b>Turnstile</b><br>RFID reader <span class="estat dis">Designed</span></div>
+        <div class="mod"><b>C++ simulators</b><br>send the same data <span class="estat sim">Simulated</span></div>
       </div>
-    </section>
+    </div>
+  </div>
+  <div class="peu"><span>gymzero.cat</span><span class="num"></span></div>
+  <aside class="notes">(En anglès) This is the architecture of the system. On the left, the users: clients and reception staff use a web browser. In the middle, the server at Dinahosting runs Apache and PHP. It has the public website, the private area and a small REST API for the devices, and it stores everything in a MariaDB database with 22 tables. On the right, the devices: the smart machines and the turnstile. They are designed, not built, so two C++ simulators send the same data to the API. Every device has its own key.</aside>
+</section>
 
-    <!-- CONCLUSIONS -->
-    <section id="conclusions" class="slide">
-      <div class="slide-number">10 · Conclusions i aprenentatges</div>
-      <h2>Aprenentatges del projecte</h2>
-
-      <p>
-        Aquest projecte permet entendre que una transformació digital no consisteix només
-        a crear una pàgina web, sinó a dissenyar un sistema complet amb infraestructura,
-        serveis, dades, seguretat i planificació.
-      </p>
-
-      <div class="grid-2">
-        <div class="mini-card">
-          <h3>Aprenentatges tècnics</h3>
-          <ul>
-            <li>Disseny de sistemes per capes.</li>
-            <li>Planificació amb GitHub Issues i milestones.</li>
-            <li>Diferència entre web estàtica i PHP.</li>
-            <li>Ús de JavaScript per funcionalitats interactives.</li>
-            <li>Importància de la base de dades i la seguretat.</li>
-          </ul>
-        </div>
-
-        <div class="mini-card">
-          <h3>Dificultats i millores</h3>
-          <ul>
-            <li>Acotar correctament una idea molt gran.</li>
-            <li>Diferenciar entre simulació i implementació real.</li>
-            <li>Organitzar la documentació tècnica.</li>
-            <li>Completar el mòdul PHP i la base de dades.</li>
-            <li>Afegir evidències i proves finals.</li>
-          </ul>
-        </div>
+<!-- 15 · RESULTS (EN) -->
+<section class="slide" lang="en">
+  <div class="cap"><span class="logo">GYM<b>ZERO</b></span><span class="seccio">Results<span class="en">EN</span></span></div>
+  <div class="cos">
+    <h2>Results and <span class="verd">next steps</span></h2>
+    <div class="xifres" style="margin-bottom:38px">
+      <div class="xifra"><b>Live</b><span>at gymzero.cat since 2 Nov 2026</span></div>
+      <div class="xifra"><b>22</b><span>database tables</span></div>
+      <div class="xifra"><b>~5,000</b><span>lines of PHP</span></div>
+      <div class="xifra"><b>12</b><span>test scripts with saved results</span></div>
+    </div>
+    <div class="fila" style="gap:56px">
+      <div class="col">
+        <div class="etiq">What works</div>
+        <ul class="llista gran">
+          <li>Class bookings with capacity control and row locking.</li>
+          <li>Accounts, roles and password reset by email.</li>
+          <li>Admin panel, monthly fees and three plans.</li>
+          <li>Training history, logbook and trainer follow-up.</li>
+          <li>HTTPS, CSRF tokens, login limit and daily backups.</li>
+        </ul>
       </div>
-
-      <div class="btn-row">
-        <a class="btn btn-primary" href="#portada">Tornar a l’inici</a>
-        <a class="btn btn-outline" href="https://github.com/janpalahi-commits/GYM-ZERO" target="_blank">
-          Veure repositori
-        </a>
+      <div class="col">
+        <div class="etiq">Next steps</div>
+        <ul class="llista gran">
+          <li>Build one real machine with an ESP32 and test it with the API.</li>
+          <li>Keep a log of who reads each client's health data.</li>
+          <li>Online payment of the monthly fee.</li>
+        </ul>
       </div>
-    </section>
+    </div>
+  </div>
+  <div class="peu"><span>gymzero.cat</span><span class="num"></span></div>
+  <aside class="notes">(En anglès) These are the results. The website has been live at gymzero.cat since the 2nd of November. The database has 22 tables, there are about five thousand lines of PHP and twelve test scripts with their results saved in the repository. Bookings, accounts, the admin panel, fees, training history and backups all work. As next steps, I would build one real machine with an ESP32 to test it with the API, keep a log of who reads the health data, and add online payment.</aside>
+</section>
 
-    <p class="footer">
-      © 2025/2026 Jan Palahí · Projecte Intermodular SMX2 · GYM ZERO
-    </p>
-  </main>
+<!-- 16 · CONCLUSIONS -->
+<section class="slide">
+  <div class="cap"><span class="logo">GYM<b>ZERO</b></span><span class="seccio">Conclusions</span></div>
+  <div class="cos">
+    <h2>Què he après</h2>
+    <div class="fila" style="gap:56px">
+      <div class="col">
+        <div class="etiq">Respecte al curs passat</div>
+        <ul class="llista gran">
+          <li>He tret el LAB. Només hi ha el que funciona o està dissenyat.</li>
+          <li>Les reserves controlen les places, amb una prova que ho demostra.</li>
+          <li>Cada cas d'ús té les seves capes.</li>
+          <li>La xarxa té topologia, adreces i VLAN.</li>
+          <li>La web és a un servidor real i té còpies.</li>
+        </ul>
+      </div>
+      <div class="col">
+        <div class="etiq">El que m'emporto</div>
+        <ul class="llista gran">
+          <li>Fer servir transaccions i bloquejos a la base de dades.</li>
+          <li>Publicar una web i mantenir-la: FTP, phpMyAdmin i https.</li>
+          <li>Protegir una web: hash, CSRF i límit d'intents.</li>
+          <li>Fer una API perquè un aparell parli amb el servidor.</li>
+          <li>Dir clar què funciona, què és simulat i què és només disseny.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="franja" style="margin-top:auto;margin-bottom:10px">Tot el que surt en aquesta presentació com a <b>funciona</b> es pot provar ara mateix a gymzero.cat.</div>
+  </div>
+  <div class="peu"><span>gymzero.cat</span><span class="num"></span></div>
+  <aside class="notes">Per acabar, què he après. Respecte al curs passat, he tret el LAB, que només era una idea, i he fet les reserves amb control de places i de concurrència, que era la crítica més gran. He descompost cada cas d'ús en capes i la xarxa ara té una topologia concreta. A nivell personal, m'emporto saber fer servir transaccions, publicar i mantenir una web en un servidor real, protegir-la i fer una API perquè un aparell parli amb el servidor. I sobretot, a dir clarament què funciona, què és simulat i què és disseny.</aside>
+</section>
+
+<!-- 17 · GRÀCIES -->
+<section class="slide">
+  <div class="cap"><span class="logo">GYM<b>ZERO</b></span><span class="seccio">Preguntes</span></div>
+  <div class="cos" style="justify-content:center">
+    <h1 style="font-size:200px;font-weight:800">Gràcies</h1>
+    <p class="gran mut" style="margin:20px 0 50px">Ara puc ensenyar la web en directe o respondre les vostres preguntes.</p>
+    <div class="fila" style="gap:24px">
+      <div class="targeta col"><div class="etiq">La web</div><p class="gran mono" style="font-weight:600">gymzero.cat</p></div>
+      <div class="targeta col"><div class="etiq">El codi</div><p class="gran mono" style="font-weight:600">github.com/janpalahi-commits/gym-zero</p></div>
+    </div>
+  </div>
+  <div class="peu"><span>Jan Palahí · SMX2 · INS Palamós</span><span class="num"></span></div>
+  <aside class="notes">Moltes gràcies per escoltar-me. Si voleu, ara us ensenyo la web en directe, o responc les preguntes que tingueu.</aside>
+</section>
+
+<div class="nav" aria-label="Navegació">
+  <button type="button" data-anar="-1" title="Anterior (←)">←</button>
+  <button type="button" data-anar="1" title="Següent (→)">→</button>
+  <button type="button" data-pantalla title="Pantalla completa (F)">F</button>
+</div>
+
+<script>
+// Navegació: fletxes, espai, clic, lliscar el dit i #número a l'adreça.
+const diapos = [...document.querySelectorAll('.slide')];
+let actual = 0;
+diapos.forEach((d, i) => { const n = d.querySelector('.num'); if (n) n.textContent = (i + 1) + ' / ' + diapos.length; });
+
+function escala() {
+  const s = Math.min(innerWidth / 1600, innerHeight / 900);
+  document.documentElement.style.setProperty('--s', s);
+  diapos.forEach(d => d.style.setProperty('--s', s));
+}
+function mostra(i) {
+  actual = Math.max(0, Math.min(diapos.length - 1, i));
+  diapos.forEach((d, j) => d.classList.toggle('actiu', j === actual));
+  history.replaceState(null, '', '#' + (actual + 1));
+}
+function pantallaCompleta() {
+  if (!document.fullscreenElement) document.documentElement.requestFullscreen?.();
+  else document.exitFullscreen?.();
+}
+addEventListener('keydown', e => {
+  if (['ArrowRight', 'ArrowDown', 'PageDown', ' ', 'Enter'].includes(e.key)) { e.preventDefault(); mostra(actual + 1); }
+  else if (['ArrowLeft', 'ArrowUp', 'PageUp', 'Backspace'].includes(e.key)) { e.preventDefault(); mostra(actual - 1); }
+  else if (e.key === 'Home') mostra(0);
+  else if (e.key === 'End') mostra(diapos.length - 1);
+  else if (e.key === 'f' || e.key === 'F') pantallaCompleta();
+});
+document.querySelectorAll('.nav [data-anar]').forEach(b => b.addEventListener('click', e => { e.stopPropagation(); mostra(actual + Number(b.dataset.anar)); }));
+document.querySelector('.nav [data-pantalla]').addEventListener('click', e => { e.stopPropagation(); pantallaCompleta(); });
+let tocat = 0;
+addEventListener('click', e => { if (e.target.closest('a,button') || Date.now() - tocat < 600) return; mostra(actual + (e.clientX > innerWidth / 3 ? 1 : -1)); });
+let x0 = null;
+addEventListener('touchstart', e => { x0 = e.touches[0].clientX; }, { passive: true });
+addEventListener('touchend', e => {
+  if (x0 === null) return;
+  const dx = e.changedTouches[0].clientX - x0; x0 = null; tocat = Date.now();
+  if (Math.abs(dx) > 40) mostra(actual + (dx < 0 ? 1 : -1));
+});
+addEventListener('resize', escala);
+escala();
+mostra((parseInt(location.hash.slice(1), 10) || 1) - 1);
+</script>
 </body>
 </html>
