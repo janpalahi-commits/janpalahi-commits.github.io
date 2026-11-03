@@ -195,7 +195,7 @@ pre .c{color:#8fa69a} pre .k{color:var(--sorra)} pre .s{color:var(--cel)}
     <div class="fila" style="gap:56px">
       <div class="col" style="flex:1.25">
         <div class="capes" style="gap:14px">
-          <div class="ratlla"><h3 style="margin-bottom:4px">Client</h3><p class="mitja">Reserva classes, mira el seu entrenament i apunta les sèries.</p></div>
+          <div class="ratlla"><h3 style="margin-bottom:4px">Client</h3><p class="mitja">Reserva classes i consulta el seu entrenament. No ha d'apuntar res: ho fan les màquines.</p></div>
           <div class="ratlla"><h3 style="margin-bottom:4px">Administrador</h3><p class="mitja">Recepció i entrenador: dona d'alta, cobra quotes, programa classes i fa els plans.</p></div>
           <div class="ratlla"><h3 style="margin-bottom:4px">Màquina intel·ligent</h3><p class="mitja">Reconeix el client per la polsera i envia cada sèrie al servidor.</p></div>
           <div class="ratlla"><h3 style="margin-bottom:4px">Torn d'entrada</h3><p class="mitja">Llegeix la polsera i només deixa passar si la quota està pagada.</p></div>
@@ -229,7 +229,7 @@ pre .c{color:#8fa69a} pre .k{color:var(--sorra)} pre .s{color:var(--cel)}
       <tr><th style="width:24%">Actor</th><th>Cas d'ús</th><th style="width:30%">Estat</th></tr>
       <tr><td class="actor" rowspan="3">Client</td><td><b>Reservar una classe</b></td><td><span class="estat fet">Funciona</span></td></tr>
       <tr><td>Consultar el meu entrenament</td><td><span class="estat fet">Funciona</span></td></tr>
-      <tr><td>Apuntar una sèrie a la llibreta</td><td><span class="estat fet">Funciona</span></td></tr>
+      <tr><td>Respondre el qüestionari del pla</td><td><span class="estat fet">Funciona</span></td></tr>
       <tr><td class="actor" rowspan="2">Administrador</td><td>Donar d'alta un client i cobrar la quota</td><td><span class="estat fet">Funciona</span></td></tr>
       <tr><td>Programar les classes de la setmana</td><td><span class="estat fet">Funciona</span></td></tr>
       <tr><td class="actor">Màquina</td><td><b>Enviar una sèrie</b></td><td><span class="estat fet">API</span> <span class="estat sim">Simulador</span> <span class="estat dis">Màquina</span></td></tr>
@@ -324,7 +324,7 @@ pre .c{color:#8fa69a} pre .k{color:var(--sorra)} pre .s{color:var(--cel)}
         <div class="etiq">Flux alternatiu</div>
         <p class="mitja" style="margin-bottom:14px"><b>4a.</b> La polsera no és de ningú: el servidor respon un error i no desa res.</p>
         <div class="etiq">Postcondició</div>
-        <p class="mitja">La sèrie surt a «El meu entrenament» i a la llibreta del client.</p>
+        <p class="mitja">La sèrie surt a «El meu entrenament» i a la llibreta sense que el client hagi d'apuntar res.</p>
       </div>
       <figure class="col" style="flex:1.2;display:flex;flex-direction:column;justify-content:center">
         <img src="img/maquina-blocs.jpg" alt="Diagrama de blocs de la màquina: lector RFID, encoder, botons i pantalla connectats a un ESP32 que envia les dades per wifi a gymzero.cat" style="width:100%;display:block">
@@ -333,7 +333,7 @@ pre .c{color:#8fa69a} pre .k{color:var(--sorra)} pre .s{color:var(--cel)}
     </div>
   </div>
   <div class="peu"><span>gymzero.cat</span><span class="num"></span></div>
-  <aside class="notes">El segon cas és d'un aparell: la màquina envia una sèrie. El client acosta la polsera, tria el pes i fa la sèrie. Un sensor de desplaçament mesura cada repetició i l'ESP32 envia la sèrie al servidor per wifi. Si la polsera no és de ningú, el servidor respon amb un error i no desa res. La màquina està dissenyada, amb les peces i les connexions, però no l'he construït. En lloc seu, un simulador que he programat en C++ envia exactament les mateixes dades.</aside>
+  <aside class="notes">El segon cas és d'un aparell: la màquina envia una sèrie. El client acosta la polsera, tria el pes i fa la sèrie. Un sensor de desplaçament mesura cada repetició i l'ESP32 envia la sèrie al servidor per wifi. Si la polsera no és de ningú, el servidor respon amb un error i no desa res. El client no ha d'apuntar res: la sèrie li surt sola al seu historial. La màquina està dissenyada, amb les peces i les connexions, però no l'he construït. En lloc seu, un simulador que he programat en C++ envia exactament les mateixes dades.</aside>
 </section>
 
 <!-- 8 · CAPES SÈRIE -->
@@ -377,11 +377,11 @@ pre .c{color:#8fa69a} pre .k{color:var(--sorra)} pre .s{color:var(--cel)}
     <div class="mosaic">
       <div class="captura gran-cap"><img src="img/web-portada.jpg" alt="Portada de gymzero.cat amb l'horari de la setmana i les places lliures"><span class="rotul">Portada · cada punt és una plaça</span></div>
       <div class="captura"><img src="img/web-entrenament.jpg" alt="El meu entrenament: dies entrenats, sèries, kg aixecats i gràfic de cada màquina"><span class="rotul">El meu entrenament</span></div>
-      <div class="captura"><img src="img/web-llibreta.jpg" alt="La meva llibreta: taula de 8 setmanes amb les sèries de cada exercici i els rècords en vermell"><span class="rotul">La meva llibreta · 8 setmanes</span></div>
+      <div class="captura"><img src="img/web-llibreta.jpg" alt="La meva llibreta: taula de 8 setmanes amb les sèries de cada exercici i els rècords en vermell"><span class="rotul">La llibreta s'omple sola</span></div>
     </div>
   </div>
   <div class="peu"><span>Dades de clients inventats</span><span class="num"></span></div>
-  <aside class="notes">Aquí teniu el que veu un client. A la portada hi ha l'horari de la setmana i, amb punts, les places que queden. Amb el compte obert, a El meu entrenament veu els dies que ha vingut i un gràfic per màquina amb la càrrega de cada dia. I a la llibreta, que és com l'Excel que fan servir molts gimnasos, té vuit setmanes d'exercicis: les sèries de les màquines s'apunten soles i les altres les apunta ell. Si vull, ara ho puc ensenyar en directe a gymzero.cat.</aside>
+  <aside class="notes">Aquí teniu el que veu un client. A la portada hi ha l'horari de la setmana i, amb punts, les places que queden. Amb el compte obert, a El meu entrenament veu els dies que ha vingut i un gràfic per màquina amb la càrrega de cada dia. I a la llibreta, que és com l'Excel que fan servir molts gimnasos, té vuit setmanes d'exercicis: cada sèrie que fa a una màquina hi surt sola, sense que hagi d'apuntar res. Això és el que abans feia a mà en una llibreta de paper. Si vull, ara ho puc ensenyar en directe a gymzero.cat.</aside>
 </section>
 
 <!-- 10 · WEB ADMIN -->
